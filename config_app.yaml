@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-configmap
+  labels:
+    kyverno.io/watch: "true" 
+data:
+  app-config: |
+    key1: value1
+    key2: value2

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: test-app
+  template:
+    metadata:
+      labels:
+        app: test-app
+    spec:
+      containers:
+      - name: test-container
+        image: nginx
+        env:
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: test-secret
+              key: password
+        - name: APP_CONFIG
+          valueFrom:
+            configMapKeyRef:
+              name: test-configmap
+              key: app-config
