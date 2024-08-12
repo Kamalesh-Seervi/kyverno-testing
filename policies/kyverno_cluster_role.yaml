@@ -1,11 +1,15 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: kyverno-deployment-updater
+  labels:
+    app: kyverno
+    app.kubernetes.io/instance: kyverno 
+    app.kubernetes.io/name: kyverno
+  name: kyverno:update-deployments
 rules:
-- apiGroups: [""]
-  resources: ["secrets", "configmaps"]
-  verbs: ["get", "list", "watch"]
-- apiGroups: ["apps"]
-  resources: ["deployments"]
-  verbs: ["get", "list", "watch", "update"]
+- apiGroups:
+  - apps
+  resources:
+  - deployments 
+  verbs:
+  - update

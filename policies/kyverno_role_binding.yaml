@@ -8,5 +8,5 @@ subjects:
   namespace: kyverno
 roleRef:
   kind: ClusterRole
-  name: kyverno-deployment-updater
+  name: kyverno:update-deployments
   apiGroup: rbac.authorization.k8s.io
