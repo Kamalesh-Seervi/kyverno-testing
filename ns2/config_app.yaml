@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-configmap-ns2
+  namespace: ns2
+  labels:
+    kyverno.io/watch: "true" 
+data:
+  app-config: |
+    key1: valuens22
+    key2: value222

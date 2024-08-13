@@ -1,0 +1,38 @@
+apiVersion: kyverno.io/v2beta1
+kind: ClusterPolicy
+metadata:
+  name: refresh-configmaps-var-in-pods     
+spec:
+  mutateExistingOnPolicyUpdate: false
+  rules:
+  - name: refresh-from-configmaps-env
+    match:
+      any:
+      - resources:
+          kinds:
+          - ConfigMap
+          selector:
+            matchLabels:
+              kyverno.io/watch: "true"
+    preconditions:
+      all:
+      - key: "{{request.operation}}"
+        operator: Equals
+        value: UPDATE
+    mutate:
+      targets:
+        - apiVersion: apps/v1
+          kind: Deployment
+          namespace: ns1
+      patchStrategicMerge:
+        spec:
+          template:
+            metadata:
+              annotations:
+                corp.org/random: "{{ random('[0-9a-z]{8}') }}"
+            spec:
+              containers:
+              - env:
+                - valueFrom:
+                    configMapKeyRef:
+                      <(name): "{{ request.object.metadata.name }}"

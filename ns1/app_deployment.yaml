@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-deployment-ns1
+  namespace: ns1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: test-app-ns1
+  template:
+    metadata:
+      labels:
+        app: test-app-ns1
+    spec:
+      containers:
+      - name: test-container-ns1
+        image: nginx
+        env:
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: test-secret-ns1
+              key: password
+        - name: APP_CONFIG
+          valueFrom:
+            configMapKeyRef:
+              name: test-configmap-ns1
+              key: app-config
